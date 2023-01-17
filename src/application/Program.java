@@ -51,8 +51,9 @@ public class Program {
 		System.out.println("Department inserted. ID: " + d.getId());
 		*/
 		
+		//System.out.println("\tupdate department");
+
 		
-	
 	
 	}
 }

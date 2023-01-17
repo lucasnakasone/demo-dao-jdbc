@@ -13,6 +13,16 @@ public class DB {
 	
 	private static Connection conn = null;
 	
+	private static Properties loadProperties() {
+		try(FileInputStream fs = new FileInputStream("db.properties")){
+			Properties props = new Properties();
+			props.load(fs);
+			return props;
+		} catch (IOException e) {
+			throw new DbException(e.getMessage());
+		}
+	}
+	
 	public static Connection getConnection() {
 		if (conn == null) {
 			try {
@@ -34,16 +44,6 @@ public class DB {
 			} catch (SQLException e) {
 				throw new DbException(e.getMessage());
 			}
-		}
-	}
-	
-	private static Properties loadProperties() {
-		try(FileInputStream fs = new FileInputStream("db.properties")){
-			Properties props = new Properties();
-			props.load(fs);
-			return props;
-		} catch (IOException e) {
-			throw new DbException(e.getMessage());
 		}
 	}
 	

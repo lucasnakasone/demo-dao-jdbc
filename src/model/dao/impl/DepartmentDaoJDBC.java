@@ -20,6 +20,13 @@ public class DepartmentDaoJDBC implements DepartmentDao {
 		this.conn = conn;
 	}
 	
+	private Department instantiateDepartment(ResultSet rs) throws SQLException {
+		Department d = new Department();
+		d.setId(rs.getInt("ID"));
+		d.setName(rs.getString("NAME"));
+		return d;
+	}
+	
 	@Override
 	public void insert(Department obj) {
 		PreparedStatement st = null;
@@ -57,9 +64,10 @@ public class DepartmentDaoJDBC implements DepartmentDao {
 		try {
 			st = conn.prepareStatement(
 					"UPDATE DEPARTMENT "
-					+ "SET NAME "
+					+ "SET NAME = ? "
 					+ "WHERE ID = ?");
-			st.setInt(1, obj.getId());
+			st.setString(1, obj.getName());
+			st.setInt(2, obj.getId());
 			st.executeUpdate();
 		} catch (SQLException e) {
 			throw new DbException(e.getMessage());
@@ -84,8 +92,23 @@ public class DepartmentDaoJDBC implements DepartmentDao {
 
 	@Override
 	public Department findById(Integer id) {
-		// TODO Auto-generated method stub
-		return null;
+		PreparedStatement st = null;
+		ResultSet rs = null;
+		try {	
+			st = conn.prepareStatement("SELECT * FROM DEPARTMENT WHERE ID = ?");
+			st.setInt(1, id);
+			rs = st.executeQuery();
+			if(rs.next()) {
+				Department d = instantiateDepartment(rs);
+				return d;
+			}
+			return null;
+		} catch (SQLException e){
+			throw new DbException(e.getMessage());
+		} finally {
+			DB.closeStatement(st);
+			DB.closeResultSet(rs);
+		}
 	}
 
 	@Override

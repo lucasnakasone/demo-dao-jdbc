@@ -51,9 +51,13 @@ public class Program {
 		System.out.println("Department inserted. ID: " + d.getId());
 		*/
 		
-		//System.out.println("\tupdate department");
-
+		System.out.println("\tupdate department");
+		Department findDep = departmentDao.findById(5);
+		findDep.setName("Souvenirs");
+		departmentDao.update(findDep);
+		System.out.println("Update completed.");
 		
-	
+		System.out.println("\tfind department by id (5)");
+		System.out.println(departmentDao.findById(5));
 	}
 }

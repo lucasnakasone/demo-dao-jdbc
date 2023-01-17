@@ -59,5 +59,9 @@ public class Program {
 		
 		System.out.println("\tfind department by id (5)");
 		System.out.println(departmentDao.findById(5));
+		
+		System.out.println("\tfindAll departments");
+		List<Department> depList = departmentDao.findAll();
+		depList.forEach(System.out::println);
 	}
 }
